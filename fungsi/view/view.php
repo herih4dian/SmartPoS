@@ -398,15 +398,36 @@ class view
         return $hasil;
     }
 
-    public function periode_jual($periode)
+    public function periode_jual($from, $to, $id_kategori, $id_supplier, $id_merk)
     {
-        $sql ="SELECT nota.* , barang.id_barang, barang.nama_barang, barang.harga_beli, member.id_member,
-                member.nm_member from nota 
-                left join barang on barang.id_barang=nota.id_barang 
-                left join member on member.id_member=nota.id_member WHERE nota.periode = ? 
-                ORDER BY id_nota ASC";
+        $where_add = "";
+        if($id_kategori){
+            $where_add .= " AND barang.id_kategori = {$id_kategori} ";
+        }
+        if($id_supplier){
+            $where_add .= " AND barang.id_supplier = {$id_supplier} ";
+        }
+        if($id_merk){
+            $where_add .= " AND barang.id_merk = {$id_merk} ";
+        }
+        
+        $sql ="SELECT transaksi.kode_transaksi, 
+                --barang.kode_barang, 
+                barang.nama_barang, 
+                --barang.harga_beli, 
+                --barang.harga_jual, 
+                nota.jumlah as qty,
+                barang.harga_beli * nota.jumlah as total_modal,
+                nota.total AS total_jual,
+                nota.total - (barang.harga_beli * nota.jumlah) as laba,
+                nota.tanggal_input as tanggal_transaksi
+                FROM transaksi 
+                LEFT JOIN nota on nota.id_transaksi = transaksi.id_transaksi
+                LEFT JOIN barang on barang.kode_barang = nota.id_barang 
+                WHERE 1 ".$where_add." and nota.tanggal_input BETWEEN ? AND ?
+                ORDER BY nota.tanggal_input ASC;";
         $row = $this-> db -> prepare($sql);
-        $row -> execute(array($periode));
+        $row -> execute(array($from, $to));
         $hasil = $row -> fetchAll();
         return $hasil;
     }

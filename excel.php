@@ -15,20 +15,12 @@
     include $view;
     $lihat = new view($config);
 
-    $bulan_tes =array(
-        '01'=>"Januari",
-        '02'=>"Februari",
-        '03'=>"Maret",
-        '04'=>"April",
-        '05'=>"Mei",
-        '06'=>"Juni",
-        '07'=>"Juli",
-        '08'=>"Agustus",
-        '09'=>"September",
-        '10'=>"Oktober",
-        '11'=>"November",
-        '12'=>"Desember"
-    );
+    $from = isset($_GET['from']) ? htmlentities($_GET['from']) : date('Y-m-d');
+    $to = isset($_GET['to']) ? htmlentities($_GET['to']) : date('Y-m-d');
+    $id_kategori = isset($_GET['id_kategori']) ? htmlentities($_GET['id_kategori']) : '';
+    $id_supplier = isset($_GET['id_supplier']) ? htmlentities($_GET['id_supplier']) : '';
+    $id_merk = isset($_GET['id_merk']) ? htmlentities($_GET['id_merk']) : '';
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,44 +34,32 @@
     <!-- view barang -->	
     <div class="modal-view">
         <h3 style="text-align:center;"> 
-                <?php if(!empty(htmlentities($_GET['cari']))){ ?>
-                    Data Laporan Penjualan <?= $bulan_tes[htmlentities($_GET['bln'])];?> <?= htmlentities($_GET['thn']);?>
-                <?php }elseif(!empty(htmlentities($_GET['hari']))){?>
-                    Data Laporan Penjualan <?= htmlentities($_GET['tgl']);?>
-                <?php }else{?>
-                    Data Laporan Penjualan <?= $bulan_tes[date('m')];?> <?= date('Y');?>
-                <?php }?>
+        <?php if(!empty($_GET['cari'])){ ?>
+			Data Laporan Penjualan <?php echo $from." s.d. ".$to;?>
+		<?php }?>
+
         </h3>
         <table border="1" width="100%" cellpadding="3" cellspacing="4">
             <thead>
-                <tr bgcolor="yellow">
-                    <th> No</th>
-                    <th> ID Barang</th>
-                    <th> Nama Barang</th>
-                    <th style="width:10%;"> Jumlah</th>
-                    <th style="width:10%;"> Modal</th>
-                    <th style="width:10%;"> Total</th>
-                    <th> Kasir</th>
-                    <th> Tanggal Input</th>
+                <tr style="background:#DFF0D8;color:#333;">
+                    <th style="width:5%;"> No</th>
+                    <th style="width:10%;"> Kode. Transaksi </th>
+                    <th style="width:10%;"> Nama Barang </th>
+                    <th style="width:5%;"> Qty </th>
+                    <th style="width:10%;"> Total Modal </th>
+                    <th style="width:10%;"> Total Jual </th>
+                    <th style="width:10%;"> Laba </th>
+                    <th style="width:10%;"> Tanggal Transaksi </th>
                 </tr>
             </thead>
             <tbody>
                 <?php 
                     $no=1; 
-                    if(!empty(htmlentities($_GET['cari']))){
-                        $periode = htmlentities($_GET['bln']).'-'.htmlentities($_GET['thn']);
+                    if(!empty($_GET['cari'])){
                         $no=1; 
                         $jumlah = 0;
                         $bayar = 0;
-                        $hasil = $lihat -> periode_jual($periode);
-                    }elseif(!empty(htmlentities($_GET['hari']))){
-                        $hari = htmlentities($_GET['tgl']);
-                        $no=1; 
-                        $jumlah = 0;
-                        $bayar = 0;
-                        $hasil = $lihat -> hari_jual($hari);
-                    }else{
-                        $hasil = $lihat -> jual();
+                        $hasil = $lihat->periode_jual($from, $to, $id_kategori, $id_supplier, $id_merk);
                     }
                 ?>
                 <?php 
@@ -87,33 +67,33 @@
                     $jumlah = 0;
                     $modal = 0;
                     foreach($hasil as $isi){ 
-                        $bayar += $isi['total'];
-                        $modal += $isi['harga_beli'] * $isi['jumlah'];
-                        $jumlah += $isi['jumlah'];
+                        $bayar += $isi['total_jual'];
+                        $modal += $isi['total_modal'];
+                        $jumlah += $isi['qty'];
                 ?>
                 <tr>
                     <td><?php echo $no;?></td>
-                    <td><?php echo $isi['id_barang'];?></td>
+                    <td><?php echo $isi['kode_transaksi'];?></td>
                     <td><?php echo $isi['nama_barang'];?></td>
-                    <td><?php echo $isi['jumlah'];?> </td>
-                    <td>Rp.<?php echo number_format($isi['harga_beli']* $isi['jumlah']);?>,-</td>
-                    <td>Rp.<?php echo number_format($isi['total']);?>,-</td>
-                    <td><?php echo $isi['nm_member'];?></td>
-                    <td><?php echo $isi['tanggal_input'];?></td>
+                    <td><?php echo $isi['qty'];?></td>
+                    <td><?php echo $isi['total_modal'];?></td>
+                    <td><?php echo $isi['total_jual'];?></td>
+                    <td><?php echo $isi['laba'];?></td>
+                    <td><?php echo $isi['tanggal_transaksi'];?></td>
                 </tr>
                 <?php $no++; }?>
-                <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td><b>Total Terjual</b></td>
-                    <td><b><?php echo $jumlah;?></b></td>
-                    <td><b>Rp.<?php echo number_format($modal);?>,-</b></td>
-                    <td><b>Rp.<?php echo number_format($bayar);?>,-</b></td>
-                    <td><b>Keuntungan</b></td>
-                    <td><b>
-                        Rp.<?php echo number_format($bayar-$modal);?>,-</b></td>
-                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3">Total Terjual</td>
+                    <th><?php echo $jumlah;?></td>
+                    <th>Rp.<?php echo number_format($modal);?>,-</th>
+                    <th>Rp.<?php echo number_format($bayar);?>,-</th>
+                    <th style="background:#0bb365;color:#fff;">Keuntungan</th>
+                    <th style="background:#0bb365;color:#fff;">
+                        Rp.<?php echo number_format($bayar-$modal);?>,-</th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </body>
