@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 28 Jan 2025 pada 02.15
+-- Waktu pembuatan: 29 Jan 2025 pada 08.21
 -- Versi server: 9.1.0
 -- Versi PHP: 8.3.14
--- update
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,10 +48,10 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id`, `kode_barang`, `nama_barang`, `id_kategori`, `id_supplier`, `id_merk`, `id_satuan`, `harga_beli`, `harga_jual`, `stok`, `upload_gambar`, `tgl_input`, `tgl_update`) VALUES
-(18, 'BR002', 'test', 3, 26, 31, 1, '2500', '3000', '3', '6798267748bd6.jpg', '2025-01-26 18:56:42', '2025-01-28 07:36:07'),
-(19, 'BR003', 'hhh', 3, 26, 30, 1, '1000', '1500', '4', '679826621fd20.jpg', '2025-01-26 18:58:08', '2025-01-28 08:52:07'),
-(21, 'BR005', 'sdsdsdsd', 2, 25, 29, 4, '10000', '12000', '-5', '679826e631dc4.jpg', '2025-01-26 19:04:48', '2025-01-28 08:58:00'),
-(24, 'BR006', 'Gehu Pedas', 2, 25, 29, 1, '1000', '2500', '65', '', '2025-01-28 08:24:30', '2025-01-28 09:15:17');
+(18, 'BR002', 'test', 3, 26, 31, 1, '2500', '3000', '25', '6798267748bd6.jpg', '2025-01-26 18:56:42', '2025-01-29 15:04:59'),
+(19, 'BR003', 'hhh', 3, 26, 30, 1, '1000', '1500', '-2', '679826621fd20.jpg', '2025-01-26 18:58:08', '2025-01-28 09:57:59'),
+(21, 'BR005', 'sdsdsdsd', 2, 25, 29, 4, '10000', '12000', '-1', '679826e631dc4.jpg', '2025-01-26 19:04:48', '2025-01-28 10:00:00'),
+(24, 'BR006', 'Gehu Pedas', 2, 25, 29, 1, '1000', '2500', '2', '67984420c9f68.jpg', '2025-01-28 08:24:30', '2025-01-28 10:07:59');
 
 -- --------------------------------------------------------
 
@@ -176,7 +175,20 @@ INSERT INTO `nota` (`id_nota`, `id_transaksi`, `id_barang`, `id_member`, `jumlah
 (1578, 8, 'BR005', 18, '5', 60000, '2025-01-28 08:52:25', '01-2025'),
 (1579, 8, 'BR006', 18, '10', 25000, '2025-01-28 08:52:33', '01-2025'),
 (1580, 9, 'BR006', 18, '4', 10000, '2025-01-28 09:06:52', '01-2025'),
-(1581, 10, 'BR006', 18, '1', 2500, '2025-01-28 09:15:10', '01-2025');
+(1581, 10, 'BR006', 18, '1', 2500, '2025-01-28 09:15:10', '01-2025'),
+(1582, 11, 'BR006', 18, '1', 2500, '2025-01-28 09:23:25', '01-2025'),
+(1583, 12, 'BR002', 18, '50', 150000, '2025-01-28 09:47:48', '01-2025'),
+(1584, 13, 'BR003', 18, '2', 3000, '2025-01-28 09:55:23', '01-2025'),
+(1585, 14, 'BR003', 18, '2', 3000, '2025-01-28 09:55:23', '01-2025'),
+(1586, 15, 'BR003', 18, '2', 3000, '2025-01-28 09:55:23', '01-2025'),
+(1587, 16, 'BR005', 18, '3', 36000, '2025-01-28 09:58:13', '01-2025'),
+(1588, 17, 'BR005', 18, '3', 36000, '2025-01-28 09:58:13', '01-2025'),
+(1589, 18, 'BR006', 18, '60', 150000, '2025-01-28 10:00:31', '01-2025'),
+(1590, 19, 'BR006', 18, '1', 2500, '2025-01-28 10:02:21', '01-2025'),
+(1591, 20, 'BR006', 18, '1', 2500, '2025-01-28 10:02:21', '01-2025'),
+(1592, 21, 'BR002', 18, '3', 9000, '2025-01-29 14:59:32', '01-2025'),
+(1593, 22, 'BR002', 18, '10', 30000, '2025-01-29 15:00:35', '01-2025'),
+(1594, 23, 'BR002', 18, '5', 15000, '2025-01-29 15:03:32', '01-2025');
 
 -- --------------------------------------------------------
 
@@ -199,7 +211,23 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`id`, `kode_pelanggan`, `nama_pelanggan`, `alamat`, `telepon`, `tgl_input`, `tgl_update`) VALUES
-(2, 'PL001', 'Heri Hadian', 'Jl. Babakan Ciparay', '0898989898', '2025-01-27 16:24:14', '2025-01-27 16:24:14');
+(2, 'PL001', 'Heri Hadian', 'Jl. Babakan Ciparay', '0898989898', '2025-01-27 16:24:14', '2025-01-27 16:24:14'),
+(3, 'PL002', 'Steven Pasaribu', 'Jl. Medan', '089823232323', '2025-01-28 09:47:15', '2025-01-28 09:47:15');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pembelian`
+--
+
+CREATE TABLE `pembelian` (
+  `id_pembelian` int NOT NULL,
+  `id_barang` int NOT NULL,
+  `jumlah` int NOT NULL,
+  `total` double DEFAULT NULL,
+  `tanggal_input` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -307,7 +335,20 @@ CREATE TABLE `transaksi` (
 
 INSERT INTO `transaksi` (`id_transaksi`, `kode_transaksi`, `id_pelanggan`, `total_transaksi`, `tanggal_input`, `tanggal_update`) VALUES
 (9, 'cKPShC3iuJ', 2, 10000, '2025-01-28 09:10:07', '2025-01-28 09:10:07'),
-(10, 'JTZxAm37rh', 2, 2500, '2025-01-28 09:15:17', '2025-01-28 09:15:17');
+(10, 'JTZxAm37rh', 2, 2500, '2025-01-28 09:15:17', '2025-01-28 09:15:17'),
+(11, 'mBGqRb07sr', 2, 2500, '2025-01-28 09:23:36', '2025-01-28 09:23:36'),
+(12, 'oFiuXAiDzP', 3, 150000, '2025-01-28 09:50:48', '2025-01-28 09:50:48'),
+(13, 'tG1HBg4TbS', 3, 3000, '2025-01-28 09:55:33', '2025-01-28 09:55:33'),
+(14, 'KGa17eiH8S', 3, 3000, '2025-01-28 09:56:08', '2025-01-28 09:56:08'),
+(15, 'lQy1ID5Hnr', 3, 3000, '2025-01-28 09:57:59', '2025-01-28 09:57:59'),
+(16, 'oALCPSaGzu', 3, 36000, '2025-01-28 09:58:55', '2025-01-28 09:58:55'),
+(17, 'pmARNq1feZ', 3, 36000, '2025-01-28 10:00:00', '2025-01-28 10:00:00'),
+(18, 'aHWC8PIoky', 3, 150000, '2025-01-28 10:00:43', '2025-01-28 10:00:43'),
+(19, 'RNLWmLDfpE', 2, 2500, '2025-01-28 10:07:49', '2025-01-28 10:07:49'),
+(20, 'fBvyqcgZ9W', 2, 2500, '2025-01-28 10:07:59', '2025-01-28 10:07:59'),
+(21, '6z6rFA9ccV', 2, 9000, '2025-01-29 14:59:48', '2025-01-29 14:59:48'),
+(22, 'CyChCVOzbL', 2, 30000, '2025-01-29 15:00:44', '2025-01-29 15:00:44'),
+(23, 'BlOU5p79Gb', 2, 15000, '2025-01-29 15:04:59', '2025-01-29 15:04:59');
 
 --
 -- Indexes for dumped tables
@@ -354,6 +395,12 @@ ALTER TABLE `nota`
 --
 ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `pembelian`
+--
+ALTER TABLE `pembelian`
+  ADD PRIMARY KEY (`id_pembelian`);
 
 --
 -- Indeks untuk tabel `penjualan`
@@ -423,19 +470,25 @@ ALTER TABLE `merk`
 -- AUTO_INCREMENT untuk tabel `nota`
 --
 ALTER TABLE `nota`
-  MODIFY `id_nota` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1582;
+  MODIFY `id_nota` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1595;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `pembelian`
+--
+ALTER TABLE `pembelian`
+  MODIFY `id_pembelian` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_penjualan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT untuk tabel `satuan`
@@ -453,7 +506,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
