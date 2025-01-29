@@ -73,18 +73,7 @@
 								<td><b>Tanggal</b></td>
 								<td><input type="text" readonly="readonly" class="form-control" value="<?php echo date("j F Y, G:i");?>" name="tgl"></td>
 							</tr>
-							<tr>
-								<td><b>Pelanggan</b></td>
-								<td>
-									<select name="id_pelanggan" id="id_pelanggan" class="form-control" required>
-										<option value="">Pilih Pelanggan</option>
-										<?php  $kat = $lihat -> pelanggan(); foreach($kat as $isi){ 	?>
-										<option value="<?php echo $isi['id'];?>">
-											<?php echo $isi['nama_pelanggan'];?></option>
-										<?php }?>
-									</select>
-								</td>
-							</tr>
+							
 						</table>
 						<table class="table table-bordered w-100" id="example1">
 							<thead>
@@ -159,7 +148,9 @@
 							$hitung = 0;
 
 							if(!empty($nota == 'yes')) {
-								$id_pelanggan = $_POST['id_pelanggan'];
+								
+								$id_pelanggan = isset($_POST['id_pelanggan']) ? $_POST['id_pelanggan'] : '';
+								
 								// echo "id_pelanggan = ".$id_pelanggan;
 								$lanjut = false;
 								if($id_pelanggan == "")
@@ -248,8 +239,20 @@
 							?>
 							<!-- aksi ke table nota -->
 							<form method="POST" id="formTransaksi" action="index.php?page=jual&nota=yes#kasirnya">
+								<tr>
+									<td><b>Pelanggan</b></td>
+									<td>
+										<select name="id_pelanggan" id="id_pelanggan" class="form-control" required>
+											<option value="">Pilih Pelanggan</option>
+											<?php  $kat = $lihat -> pelanggan(); foreach($kat as $isi){ 	?>
+											<option value="<?php echo $isi['id'];?>">
+												<?php echo $isi['nama_pelanggan'];?></option>
+											<?php }?>
+										</select>
+									</td>
+								</tr>
 								<?php foreach($hasil_penjualan as $isi){;?>
-									<input type="hidden" name="id_pelanggan" id="hidden_id_pelanggan" value="<?php echo $id_pelanggan;?>">
+									
 									<input type="hidden" name="id_barang[]" value="<?php echo $isi['id_barang'];?>">
 									<input type="hidden" name="id_member[]" value="<?php echo $isi['id_member'];?>">
 									<input type="hidden" name="jumlah[]" value="<?php echo $isi['jumlah'];?>">
@@ -291,17 +294,6 @@
 		</div>
 	</div>
 	
-
-<script>
-    // Set event listener pada input text
-    document.getElementById('id_pelanggan').addEventListener('input', function () {
-        // Ambil nilai dari input text
-        var idPelanggan = this.value;
-
-        // Masukkan nilai ke input hidden di dalam form
-        document.getElementById('hidden_id_pelanggan').value = idPelanggan;
-    });
-</script>
 
 <script>
     // Fungsi untuk submit form secara otomatis
