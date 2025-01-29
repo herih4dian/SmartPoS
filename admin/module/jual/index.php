@@ -229,6 +229,12 @@
 
 										echo '<script>
 											alert("Belanjaan Berhasil Di Bayar !");
+											document.addEventListener("DOMContentLoaded", function() {
+												var table = document.querySelector("#example1 tbody");
+												if (table) {
+													table.innerHTML = "";
+												}
+											});
 										</script>';
 
 									}else{
