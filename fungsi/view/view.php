@@ -456,6 +456,20 @@ class view
         return $hasil;
     }
 
+    public function penjualan_asli()
+    {
+        $sql ="SELECT penjualan.* , barang.kode_barang, barang.nama_barang, member.id_member,
+                member.nm_member from penjualan 
+                left join barang on barang.kode_barang=penjualan.id_barang 
+                left join member on member.id_member=penjualan.id_member
+                ORDER BY id_penjualan";
+       
+        $row = $this-> db -> prepare($sql);
+        $row -> execute();
+        $hasil = $row -> fetchAll();
+        return $hasil;
+    }
+
     public function penjualan()
     {
         //  ga pake table penjualan karena sudah kosong isinya ......

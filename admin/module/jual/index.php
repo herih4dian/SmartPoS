@@ -87,7 +87,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php $total_bayar = 0; $no = 1; $hasil_penjualan = $lihat->penjualan(); ?>
+								<?php $total_bayar = 0; $no = 1; $hasil_penjualan = $lihat->penjualan_asli(); ?>
 								<?php foreach ($hasil_penjualan as $isi) { ?>
 									<tr>
 										<td><?php echo $no; ?></td>

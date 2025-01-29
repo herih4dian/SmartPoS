@@ -9,7 +9,7 @@
 	include $view;
 	$lihat = new view($config);
 	$toko = $lihat -> toko();
-	$hsl = $lihat -> penjualan();
+	$print_hasil = $lihat -> penjualan();
 ?>
 <html>
 	<head>
@@ -38,16 +38,16 @@
 						<?php 
 						$total_all = 0;
 						$no=1; 
-						foreach($hsl as $isi){
+						foreach($print_hasil as $isinya){
 							
-							$total_all += $isi['total']
+							$total_all += $isinya['total']
 							
 							?>
 						<tr>
 							<td><?php echo $no;?></td>
-							<td><?php echo $isi['nama_barang'];?></td>
-							<td><?php echo $isi['jumlah'];?></td>
-							<td><?php echo $isi['total'];?></td>
+							<td><?php echo $isinya['nama_barang'];?></td>
+							<td><?php echo $isinya['jumlah'];?></td>
+							<td><?php echo $isinya['total'];?></td>
 						</tr>
 						<?php $no++; }?>
 					</table>
