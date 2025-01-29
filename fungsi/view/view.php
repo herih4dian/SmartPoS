@@ -410,7 +410,7 @@ class view
         if($id_merk){
             $where_add .= " AND barang.id_merk = {$id_merk} ";
         }
-        
+
         $sql ="SELECT transaksi.kode_transaksi, 
                 --barang.kode_barang, 
                 barang.nama_barang, 
@@ -424,7 +424,7 @@ class view
                 FROM transaksi 
                 LEFT JOIN nota on nota.id_transaksi = transaksi.id_transaksi
                 LEFT JOIN barang on barang.kode_barang = nota.id_barang 
-                WHERE 1 ".$where_add." and nota.tanggal_input BETWEEN ? AND ?
+                WHERE 1 ".$where_add." and DATE(nota.tanggal_input) BETWEEN ? AND ?
                 ORDER BY nota.tanggal_input ASC;";
         $row = $this-> db -> prepare($sql);
         $row -> execute(array($from, $to));
