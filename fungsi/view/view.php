@@ -458,11 +458,25 @@ class view
 
     public function penjualan()
     {
-        $sql ="SELECT penjualan.* , barang.kode_barang, barang.nama_barang, member.id_member,
-                member.nm_member from penjualan 
-                left join barang on barang.kode_barang=penjualan.id_barang 
-                left join member on member.id_member=penjualan.id_member
-                ORDER BY id_penjualan";
+        //  ga pake table penjualan karena sudah kosong isinya ......
+        // $sql ="SELECT penjualan.* , barang.kode_barang, barang.nama_barang, member.id_member,
+        //         member.nm_member from penjualan 
+        //         left join barang on barang.kode_barang=penjualan.id_barang 
+        //         left join member on member.id_member=penjualan.id_member
+        //         ORDER BY id_penjualan";
+        $sql = "SELECT transaksi.kode_transaksi, 
+                    barang.kode_barang, 
+                    barang.nama_barang,
+                    nota.jumlah,
+                    nota.total
+                FROM transaksi 
+                LEFT JOIN nota ON nota.id_transaksi = transaksi.id_transaksi 
+                LEFT JOIN barang ON barang.kode_barang = nota.id_barang 
+                WHERE transaksi.id_transaksi = (
+                    SELECT MAX(id_transaksi) 
+                    FROM transaksi
+                )
+                ORDER BY nota.id_transaksi;";
         $row = $this-> db -> prepare($sql);
         $row -> execute();
         $hasil = $row -> fetchAll();

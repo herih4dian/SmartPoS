@@ -35,7 +35,14 @@
 							<td>Jumlah</td>
 							<td>Total</td>
 						</tr>
-						<?php $no=1; foreach($hsl as $isi){?>
+						<?php 
+						$total_all = 0;
+						$no=1; 
+						foreach($hsl as $isi){
+							
+							$total_all += $isi['total']
+							
+							?>
 						<tr>
 							<td><?php echo $no;?></td>
 							<td><?php echo $isi['nama_barang'];?></td>
@@ -46,7 +53,7 @@
 					</table>
 					<div class="pull-right">
 						<?php $hasil = $lihat -> jumlah(); ?>
-						Total : Rp.<?php echo number_format($hasil['bayar']);?>,-
+						Total : Rp.<?php echo number_format($total_all);?>,-
 						<br/>
 						Bayar : Rp.<?php echo number_format(htmlentities($_GET['bayar']));?>,-
 						<br/>
